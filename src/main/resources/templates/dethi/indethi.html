@@ -1,0 +1,288 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>In đề thi</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="/Assets/admin2/bootstrap/css/bootstrap.min.css" />
+<style>
+body {
+	background-color: currentColor;
+	font-family: Times New Roman;
+	font-size: 14px;
+}
+
+.container {
+	padding: 20px;
+}
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Đề thi</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#" data-toggle="modal" data-target="#myModal"><i
+							class="fa fa-refresh"></i> Cập nhật thông tin</a></li>
+					<li><a class="btn jquery-word-export"
+						href="javascript:void(0)"><i class="fa fa-print"></i> In đề</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Cập nhật</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Tên môn học</label> <input type="text"
+								class="form-control" id="" placeholder="Tên môn học" />
+						</div>
+						<div class="form-group">
+							<label>Ngày thi</label> <input type="date" class="form-control"
+								id="" placeholder="" />
+						</div>
+						<div class="form-group">
+							<label>Thời gian thi</label> <input type="number"
+								class="form-control" id="" placeholder="Thời gian thi" />
+						</div>
+						<div class="form-group">
+							<label>Được sử dụng tài liệu</label> <select class="form-control">
+								<option>Được phép</option>
+								<option>Không được phép</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+						<button type="button" class="btn btn-primary">Lưu</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="contenta4 col-md-12" id="page-content"
+			style="background-color: #FFFFFF; padding: 50px; height: 800px; overflow: scroll;">
+			<div
+				style="text-transform: uppercase; font-family: Times New Roman; font-weight: bold; width: 350px; text-align: center">
+				Trường đại học Nông Lâm <br /> thành phố Hồ Chí Minh <br />
+				<hr />
+			</div>
+			<div
+				style="text-transform: uppercase; font-family: Times New Roman; font-weight: bold; text-align: center; font-size: 25px;">
+				Đề thi kết thúc học phần học kỳ <span>.....</span>
+			</div>
+			<div style="text-align: center; padding-top: 20px;">
+				<p>
+					<b>Tên môn học: </b> <span style="text-transform: uppercase"
+						th:text="${tenMonHoc}"></span> <br /> <b>Ngày thi: </b> <span
+						th:text="${deThi.ngaythi}">..............................</span>
+					&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; <b>Thời gian thi: </b> <span
+						th:text="${deThi.thoigianlambai}">...... phút</span><br /> <b>Được
+						xem tài liệu:</b> <span>.......................................................................................
+					</span><br /> <b>Họ tên sinh viên:</b>............................................................&nbsp;
+					<b>MSSV:</b>...................
+				</p>
+			</div>
+			<hr style="border: 1px dotted #000000;" />
+
+			<!--  	câu hỏi-->
+			<div th:if="${#lists.size(listCauHoiTracNghiem)}">
+				<p
+					style="text-transform: uppercase; font-weight: bold; font-size: 20px; padding-bottom: 10px;">I.
+					Phần Trắc Nghiệm</p>
+				<th:block th:each="cauHoi, iterStat : ${listCauHoiTracNghiem} ">
+
+					<div class="cauhoi" style="float: left; margin-bottom: 20px;">
+						<p class="noidung-cauhoi">
+							<b style="font-weight: bold;">Câu <span
+								th:text="${iterStat.index +1}"></span>:
+							</b> <span th:text="${cauHoi.noidung}"></span> (<span
+								th:text="${cauHoi.diem}"></span> điểm)
+						</p>
+						<th:block th:each="dapAn,iterStat2 : ${cauHoi.list}">
+
+							<div th:if="${dapAn.dapandung}"
+								style="width: 506.5px; float: left; padding-right: 20px; color: red;">
+								<span th:attr="data-id=${iterStat2.index}" class="abc"></span>.&nbsp;
+								<span th:text="${dapAn.noidung}"> </span>
+							</div>
+							<div th:unless="${dapAn.dapandung}"
+								style="width: 506.5px; float: left; padding-right: 20px;">
+								<span th:attr="data-id=${iterStat2.index}" class="abc"></span>.&nbsp;
+								<span th:text="${dapAn.noidung}"> </span>
+							</div>
+
+						</th:block>
+					</div>
+				</th:block>
+
+
+			</div>
+			<div th:if="${#lists.size(listCauHoiTuLuan)}">
+				<p
+					style="text-transform: uppercase; font-weight: bold; font-size: 20px; padding-bottom: 10px;">II.
+					Phần Tự Luận</p>
+				<th:block th:each="cauHoi, iterStat : ${listCauHoiTuLuan} ">
+
+					<div class="cauhoi">
+						<p class="noidung-cauhoi">
+							<b style="font-weight: bold;">Câu <span
+								th:text="${iterStat.index +1}"></span>:
+							</b> <span th:text="${cauHoi.noidung}"></span> (<span
+								th:text="${cauHoi.diem}"></span> điểm)
+						</p>
+						<th:block th:each="dapAn,iterStat2 : ${cauHoi.list}">
+							<div th:if="${dapAn.dapandung}" class="datuluan"
+								style="width: 506.5px; float: left; padding-right: 20px; color: red;">
+								<span>Đáp án: </span>&nbsp; <span th:text="${dapAn.noidung}">
+								</span>
+							</div>
+						</th:block>
+
+					</div>
+					<br />
+				</th:block>
+
+
+			</div>
+			<!--  	hết câu hỏi-->
+
+		</div>
+	</div>
+	<script src="/Assets/admin2/jquery-2.2.3.min.js"></script>
+	<script src="/Assets/admin2/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var abc = [ "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M" ];
+		update();
+		function update() {
+			$("body .abc").each(function() {
+				$(this).html(abc[$(this).attr("data-id")]);
+			});
+		}
+	</script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
+	<script th:inline="javascript">
+
+      /*<![CDATA[*/
+$(function(){
+	$(".jquery-word-export").on( 'click' ,function(){
+		console.log("ạvhasdgh");
+		$(".datuluan").hide();
+	});
+});
+
+	if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
+    (function($) {
+        $.fn.wordExport = function(fileName) {
+            fileName = typeof fileName !== 'undefined' ? fileName : "jQuery-Word-Export";
+            var static = {
+                mhtml: {
+                    top: "Mime-Version: 1.0\nContent-Base: " + location.href + "\nContent-Type: Multipart/related; boundary=\"NEXT.ITEM-BOUNDARY\";type=\"text/html\"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\"utf-8\"\nContent-Location: " + location.href + "\n\n<!DOCTYPE html>\n<html>\n_html_</html>",
+                    head: "<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style>\n_styles_\n</style>\n</head>\n",
+                    body: "<body>_body_</body>"
+                }
+            };
+            var options = {
+                maxWidth: 624
+            };
+            // Clone selected element before manipulating it
+            var markup = $(this).clone();
+
+            // Remove hidden elements from the output
+            markup.each(function() {
+                var self = $(this);
+                if (self.is(':hidden'))
+                    self.remove();
+            });
+
+            // Embed all images using Data URLs
+            var images = Array();
+            var img = markup.find('img');
+            for (var i = 0; i < img.length; i++) {
+                // Calculate dimensions of output image
+                var w = Math.min(img[i].width, options.maxWidth);
+                var h = img[i].height * (w / img[i].width);
+                // Create canvas for converting image to data URL
+                var canvas = document.createElement("CANVAS");
+                canvas.width = w;
+                canvas.height = h;
+                // Draw image to canvas
+                var context = canvas.getContext('2d');
+                context.drawImage(img[i], 0, 0, w, h);
+                // Get data URL encoding of image
+                var uri = canvas.toDataURL("image/png");
+                $(img[i]).attr("src", img[i].src);
+                img[i].width = w;
+                img[i].height = h;
+                // Save encoded image to array
+                images[i] = {
+                    type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
+                    encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
+                    location: $(img[i]).attr("src"),
+                    data: uri.substring(uri.indexOf(",") + 1)
+                };
+            }
+
+            // Prepare bottom of mhtml file with image data
+            var mhtmlBottom = "\n";
+            for (var i = 0; i < images.length; i++) {
+                mhtmlBottom += "--NEXT.ITEM-BOUNDARY\n";
+                mhtmlBottom += "Content-Location: " + images[i].location + "\n";
+                mhtmlBottom += "Content-Type: " + images[i].type + "\n";
+                mhtmlBottom += "Content-Transfer-Encoding: " + images[i].encoding + "\n\n";
+                mhtmlBottom += images[i].data + "\n\n";
+            }
+            mhtmlBottom += "--NEXT.ITEM-BOUNDARY--";
+
+            //TODO: load css from included stylesheet
+            var styles = "";
+
+            // Aggregate parts of the file together
+            var fileContent = static.mhtml.top.replace("_html_", static.mhtml.head.replace("_styles_", styles) + static.mhtml.body.replace("_body_", markup.html())) + mhtmlBottom;
+
+            // Create a Blob with the file contents
+            var blob = new Blob([fileContent], {
+                type: "application/msword;charset=utf-8"
+            });
+            saveAs(blob, fileName + ".doc");
+        };
+    })(jQuery);
+} else {
+    if (typeof jQuery === "undefined") {
+        console.error("jQuery Word Export: missing dependency (jQuery)");
+    }
+    if (typeof saveAs === "undefined") {
+        console.error("jQuery Word Export: missing dependency (FileSaver.js)");
+    }
+}
+
+
+
+
+$("a.jquery-word-export").click(function(event) {
+            $("#page-content").wordExport();
+        });
+
+
+
+ 		
+ /*]]>*/
+ </script>
+</body>
+</html>

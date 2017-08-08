@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+	<aside th:fragment="main_sidebar2" class="main-sidebar">
+
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+
+			<!-- Sidebar user panel (optional) -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img
+						th:src="${ session.USER_SESSION.anhgv == null }?'/UploadedFiles/no_img.jpg':'/upload/resize?url='+${session.USER_SESSION.anhgv}+'&amp;w=150'"
+						src="/Assets/admin2/dist/img/user2-160x160.jpg" class="img-circle"
+						alt="User Image" />
+				</div>
+				<div class="pull-left info">
+					<p class="usernamejs"
+						th:text="${ session.USER_SESSION.hogv  +' '+ session.USER_SESSION.tengv}">Alexander
+						Pierce</p>
+					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+				</div>
+			</div>
+
+			<!-- search form (Optional) -->
+			<!-- <form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control"
+						placeholder="Tìm kiếm..." /> <span class="input-group-btn">
+						<button type="submit" name="search" id="search-btn"
+							class="btn btn-flat">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</div>
+			</form> -->
+			<form action="#" method="get" class="sidebar-form">
+				<div class="">
+					<select class="selectpicker form-control"
+						onchange="window.location ='/home/'+this.value"
+						style="background-color: #374850; color: white;">
+						<th:block th:each=" role  : ${session.ROLE.list}">
+							<option th:href="@{/home/}+${role.roleName}"
+								th:value="${role.roleName}" th:text="${role.describe}"
+								th:if="${session.ROLE.currentRole.roleName==role.roleName}"
+								selected="selected"></option>
+							<option th:href="@{/home/}+${role.roleName}"
+								th:value="${role.roleName}" th:text="${role.describe}"
+								th:unless="${session.ROLE.currentRole.roleName==role.roleName}"></option>
+						</th:block>
+						<option th:if="${#lists.isEmpty(session.ROLE.list)}">Không
+							có chức vụ</option>
+					</select>
+				</div>
+			</form>
+			<!-- /.search form -->
+
+
+			<!-- Sidebar Menu -->
+			<ul class="sidebar-menu">
+				<li class="header">BẢNG ĐIỀU KHIỂN</li>
+				<th:block th:if="${#lists.size(session.ROLE.list)>0}">
+					<!-- Optionally, you can add icons to the links -->
+
+					<li><a href="/"><i class="fa fa-home"></i> <span>Trang
+								chủ</span></a></li>
+
+					<li><a href="/ManagerProfile"><i
+							class="glyphicon glyphicon-user"></i> <span>Thông tin cá
+								nhân</span></a></li>
+
+					<li><a href="/thongke"><i
+							class="glyphicon glyphicon-stats"></i> <span>Thông kê</span></a></li>
+
+					<!--        môn học-->
+					<li class="header">CHỨC NĂNG</li>
+					<th:block th:if="${session.ROLE.currentRole.roleName==3}">
+						<li><a th:href="@{/monhoc/danh-sach-mon-hoc}"> <i
+								class="fa fa-book"></i> <span>Môn học</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+						<li><a th:href="@{/congviec/congviecduocphancong}"> <i
+								class="fa fa-briefcase"></i> <span>Công việc</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+						<li><a href="/taocauhoi"><i
+								class="glyphicon glyphicon-pencil"></i> <span>Biên soạn
+									câu hỏi</span></a></li>
+
+					</th:block>
+
+					<!--            bộ môn-->
+					<th:block th:if="${session.ROLE.currentRole.roleName==2}">
+						<li class="treeview"><a th:href="@{/bomon/danh-sach-bo-mon}">
+								<i class="fa fa-archive"></i> <span>Bộ môn</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+
+						<!--     	phân công-->
+						<li class="treeview"><a th:href="@{/congviec/phancong}">
+								<i class="fa fa-cubes"></i> <span>Phân công</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+						<li><a href="/cong-viec-proc"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Duyệt
+									công việc </span></a></li>
+						<li class="treeview"><a th:href="@{/cong-viec-proc}"> <i
+								class="fa fa-bars"></i> <span>Chi tiết phân công</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+
+						<li><a th:href="@{/dethi/tao-de-thi}"><i
+								class="fa fa-pencil"></i> <span>Tạo đề thi</span></a></li>
+					</th:block>
+
+
+					<th:block th:if="${session.ROLE.currentRole.roleName==1}">
+						<!--     		đóng/mở-->
+						<li class="treeview"><a th:href="@{/bomon/danh-sach-bo-mon}">
+								<i class="fa  fa-archive"></i> <span>Bộ môn</span> <span
+								class="pull-right-container"> </span>
+						</a></li>
+						<!-- 						<li class="treeview"><a th:href="@{/congviec/danhsachcongviec2}"> <i class="fa fa-bars"></i> -->
+						<!-- 								<span>Chi tiết phân công</span> <span -->
+						<!-- 								class="pull-right-container"> </span> -->
+						<!-- 						</a></li> -->
+						<li><a href="/cong-viec-proc"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Xem
+									công việc</span></a></li>
+						<li><a href="/phan-cong-day"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Phân công
+									dạy</span></a></li>
+
+						<li><a href="/them-giang-vien"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Thêm
+									giảng viên</span></a></li>
+						<li><a href="/nhap-du-lieu/bo-mon"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Thêm bộ
+									môn</span></a></li>
+						<li><a href="/nhap-du-lieu/mon-hoc"><i
+								class="glyphicon glyphicon-calendar"></i> <span>Thêm môn
+									học</span></a></li>
+						<li class="treeview"><a href="#"> <i class="fa fa-cogs"></i>
+								<span>Hệ thống</span> <span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+							<ul class="treeview-menu" style="display: none;">
+								<li><a href="#"><i class="fa fa-toggle-off"></i> Đóng</a></li>
+								<li><a href="#"><i class="fa fa-toggle-on"></i> Mở</a></li>
+							</ul></li>
+						<li class="treeview"><a href="#"> <i class="fa fa-cubes"></i>
+								<span>Menu cũ</span> <span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+
+
+							<ul class="treeview-menu">
+								<li data-name="Bộ môn " class="treeview"><a href="/bomon"><i
+										class="glyphicon glyphicon-eye-open"></i> <span>Bộ môn</span></a></li>
+								<li data-name="giảng viên" class="treeview"><a
+									href="/giangvien"><i class="glyphicon glyphicon-eye-open"></i>
+										<span>Giảng viên</span></a></li>
+								<li data-name="khoa" class="treeview"><a href="/khoa"><i
+										class="glyphicon glyphicon-eye-open"></i> <span> Khoa</span></a></li>
+								<li data-name="môn học" class="treeview"><a href="/monhoc"><i
+										class="glyphicon glyphicon-eye-open"></i> <span> Môn
+											học</span></a></li>
+								<li data-name="đề thi" class="treeview"><a href="/dethi"><i
+										class="glyphicon glyphicon-eye-open"></i> <span> Đề thi</span></a></li>
+								<li data-name="Chương muc" class="treeview"><a
+									href="/chuongmuc"><i class="glyphicon glyphicon-eye-open"></i>
+										<span> Chương mục</span></a></li>
+								<li data-name="Độ khó" class="treeview"><a href="/dokho"><i
+										class="glyphicon glyphicon-eye-open"></i> <span> Độ khó</span></a></li>
+								<li data-name="Câu hỏi" class="treeview"><a href="/cauhoi"><i
+										class="glyphicon glyphicon-eye-open"></i> <span> Câu
+											hỏi</span></a></li>
+
+							</ul></li>
+					</th:block>
+				</th:block>
+			</ul>
+
+			<!-- /.sidebar-menu -->
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+
+	<!-- <section th:fragment="mainside" class="sidebar">
+		<div class="user-panel">
+			<div class="pull-left image">
+				<img
+					th:src="${ session.USER_SESSION.anhgv == null }?'/UploadedFiles/no_img.jpg':'/upload/resize?url='+${session.USER_SESSION.anhgv}+'&amp;w=150'"
+					src="/Assets/admin2/dist/img/user2-160x160.jpg" class="img-circle"
+					alt="User Image" />
+			</div>
+			<div class="pull-left info">
+				<p class="usernamejs"
+					th:text="${ session.USER_SESSION.hogv  +' '+ session.USER_SESSION.tengv}">Alexander
+					Pierce</p>
+				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+			</div>
+		</div>
+
+
+		<ul class="sidebar-menu buithibichtram">
+			<li data-name="Quản lý"><a href="#"> <i
+					class="glyphicon glyphicon-lock text-yellow"></i> <span>Quản
+						lý </span> <span class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li data-name="Bộ môn " class="treeview"><a href="/bomon"><i
+							class="glyphicon glyphicon-eye-open"></i> <span>Bộ môn</span></a></li>
+					<li data-name="giảng viên" class="treeview"><a
+						href="/giangvien"><i class="glyphicon glyphicon-eye-open"></i>
+							<span>Giảng viên</span></a></li>
+					<li data-name="khoa" class="treeview"><a href="/khoa"><i
+							class="glyphicon glyphicon-eye-open"></i> <span> Khoa</span></a></li>
+					<li data-name="môn học" class="treeview"><a href="/monhoc"><i
+							class="glyphicon glyphicon-eye-open"></i> <span> Môn học</span></a></li>
+					<li data-name="đề thi" class="treeview"><a href="/dethi"><i
+							class="glyphicon glyphicon-eye-open"></i> <span> Đề thi</span></a></li>
+					<li data-name="Chương muc" class="treeview"><a
+						href="/chuongmuc"><i class="glyphicon glyphicon-eye-open"></i>
+							<span> Chương mục</span></a></li>
+					<li data-name="Độ khó" class="treeview"><a href="/dokho"><i
+							class="glyphicon glyphicon-eye-open"></i> <span> Độ khó</span></a></li>
+					<li data-name="Câu hỏi" class="treeview"><a href="/cauhoi"><i
+							class="glyphicon glyphicon-eye-open"></i> <span> Câu hỏi</span></a></li>
+
+				</ul></li>
+
+		</ul>
+
+
+	</section> -->
+
+
+</body>
+</html>

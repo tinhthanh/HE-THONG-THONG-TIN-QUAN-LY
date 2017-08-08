@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS & JS -->
+
+<!-- Latest compiled and minified CSS & JS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+
+</head>
+<body >
+  <div class="container">
+  	<div class="col-md-4">
+  		 <form id="login" action="" method="POST" role="form">
+ 	<legend>Form title</legend>
+ 
+ 	<div class="form-group">
+ 		<label for="">label</label>
+ 		<input type="text" class="form-control" id="user"  placeholder="Input field"/>
+ 	</div>
+ 
+ 		<div class="form-group">
+ 		<label for="">label</label>
+ 		<input type="text" class="form-control" id="pass" placeholder="Input field"/>
+ 	</div>
+ 
+ 	<button  type="submit" class="btn btn-primary">Submit</button>
+ </form>
+  		
+  	</div>
+  </div>
+ 
+
+ <script type="text/javascript">
+ 	$("#login").submit(function(event) {
+ 		/* Act on the event */
+ 		var user =  $("#user").val() ;
+ 		 var pass = $("#pass").val() ;
+ 	     
+ 	     $.ajax({
+ 	     	url: '/thy-demo/login',
+ 	     	type: 'POST',
+ 	     	data: { user :  user , pass : pass } ,
+ 	     	success : function ( response ) {
+                  if(response == 'true') {
+                  	alert("dang nhap thanh cong") ;
+                  }else{
+                  	alert(response) ;
+                  }
+ 	     	}
+ 	     })
+ 	     .done(function() {
+ 	     	console.log("success");
+ 	     })
+ 	     .fail(function() {
+ 	     	console.log("error");
+ 	     })
+ 	     .always(function() {
+ 	     	console.log("complete");
+ 	     });
+ 	      return false ;
+ 	     
+ 	});
+
+ </script>
+
+</body>
+</html>
